@@ -5,15 +5,41 @@ Plain and simple [Jekyll](https://jekyllrb.com) site template ideal for [GitHub 
 
 Also good for a quick-and-dirty sandbox static site similar to using [CodePen](https://codepen.io).
 
+- [Usage](#usage)
+	- [Clone this repo locally and use it as a template](#clone-this-repo-locally-and-use-it-as-a-template)
+	- [Use this repo as a template on GitHub](#use-this-repo-as-a-template-on-github)
+	- [Install using Homebrew and generate a new site](#install-using-homebrew-and-generate-a-new-site)
+- [Help](#help)
+- [To Do](#to-do)
+
 ## Usage
 
-```
-git clone https://github.com/remino/jeksite.git
-# Or use this repo as a template on GitHub and clone that instead.
+There are a few ways to use _jeksite_:
 
-cd jeksite
-asdf install # If you have asdf installed
+### Clone this repo locally and use it as a template
+
+```sh
+git clone https://github.com/remino/jeksite.git newsite
+cd newsite
+asdf install # if you use asdf
 bundle install
+git remote set-url origin <url of your repo> # if you want to push to a new repo
+./jeksite # serve site using jekyll
+```
+
+### Use this repo as a template on GitHub
+
+https://github.com/remino/jeksite/generate
+
+### Install using Homebrew and generate a new site
+
+This requires [Homebrew](https://brew.sh) and works on macOS (and possibly Linux) only.
+
+```sh
+brew tap remino/remino
+brew install jeksite
+jeksite new newsite
+cd newsite
 ./jeksite
 ```
 
