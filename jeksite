@@ -1,0 +1,104 @@
+#!/bin/sh
+# jeksite
+
+VERSION='1.0.0'
+
+jeksite_main() {
+	trap _exit INT TERM
+
+	e_args=16
+	e_failed_cd=17
+
+	scriptinv="$( basename "$0" )"
+	scriptpath="$( readlink -f "$0" )"
+	scriptname="$( basename "$scriptpath" )"
+	scriptdir="$( dirname "$scriptpath" )"
+
+	while getopts hv opt
+	do
+		case $opt in
+			h) cmd=help ;;
+			v) cmd=version ;;
+			*) _invalid_opt ;;
+		esac
+	done
+
+	shift "$(( OPTIND - 1 ))"
+
+	[ -z "$cmd" ] && cmd="process"
+
+	case "$cmd" in
+		help|process|version) "jeksite_$cmd" "$@" ;;
+		*) _invalid_cmd ;;
+	esac
+
+	_exit
+}
+
+jeksite_help() {
+cat <<USAGE
+$scriptname $VERSION
+
+USAGE: $scriptinv [<options>] [<args>...]
+
+Wrapper for Jekyll.
+
+Passes all arguments to Jekyll.
+
+To pass hyphen arguments to Jekyll, use the -- separator:
+
+	$scriptinv -- --help
+
+OPTIONS:
+
+	-h        Show this help screen.
+	-v        Show script name and version number.
+
+USAGE
+}
+
+jeksite_process() {
+	cd "$scriptdir" || exit $e_failed_cd
+	[ $# -gt 0 ] && bundle exec jekyll "$@" && return
+	bundle exec jekyll serve --livereload --incremental "$@"
+}
+
+jeksite_version() {
+	_echo "$scriptname $VERSION"
+}
+
+_echo() {
+	echo "$@"
+}
+
+_error() {
+	_echo "$@" >&2
+}
+
+_exit() {
+	exit_code=$?
+	exit $exit_code
+}
+
+_fatal() {
+	exit_code="$1"
+	shift
+	_error "$@"
+	exit "$exit_code"
+}
+
+_invalid_cmd() {
+	_error "Invalid command: $cmd"
+	_echo
+	jeksite_help
+	exit $e_args
+}
+
+_invalid_opt() {
+	_error "Invalid option: $opt"
+	_echo
+	jeksite_help
+	exit $e_args
+}
+
+jeksite_main "$@"
