@@ -3,4 +3,5 @@
 
 # This is your new *jeksite*
 
-[remino.github.io/jeksite](https://remino.github.io/jeksite/)
+- [Site](https://remino.github.io/jeksite/)
+- [GitHub](https://github.com/remino/jeksite)

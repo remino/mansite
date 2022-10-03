@@ -52,3 +52,20 @@ h1
 
 html
 	height: 100%
+
+ul
+	display: flex
+	flex-flow: row wrap
+	justify-content: center
+	list-style: none
+	margin: 0
+	padding: 0
+	text-transform: lowercase
+
+	li
+		&::after
+			content: '|'
+			padding: 0 0.25em
+
+		&:last-child::after
+			content: ''
