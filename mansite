@@ -1,19 +1,16 @@
 #!/bin/sh
-# jeksite
+# mansite
 
-VERSION='1.1.0'
-
-jeksite_main() {
+mansite_main() {
 	trap _exit INT TERM
 
 	e_args=16
 	e_failed_cd=17
-	e_no_jekyll=18
+	e_no_middleman=18
 	e_exists=19
 
 	scriptinv="$( basename "$0" )"
 	scriptpath="$( readlink -f "$0" )"
-	scriptname="$( basename "$scriptpath" )"
 	scriptdir="$( dirname "$scriptpath" )"
 
 	while getopts hv opt
@@ -31,61 +28,62 @@ jeksite_main() {
 	[ -z "$cmd" ] && cmd="serve"
 
 	case "$cmd" in
-		help|jekyll|new|serve|version) "jeksite_$cmd" "$@" ;;
+		build|help|middleman|serve) "mansite_$cmd" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
 
 	_exit
 }
 
-jeksite_help() {
+mansite_help() {
 cat <<USAGE
-$scriptname $VERSION
-
 USAGE: $scriptinv [<options>] <command> [<args>...]
 
-Serve or create new jeksite.
+Serve or build site using Middleman.
 
 COMMANDS:
+
+	build
+		Build site using Middleman. Pass arguments to it.
 
 	help
 		Show this help message.
 
-	jekyll [<args>]
-		Run Jekyll. Pass all arguments to it.
+	middleman [<args>]
+		Run Middleman. Pass all arguments to it.
 
 	new <dir>
-		Create new jeksite in <dir>.
+		Create new mansite in <dir>.
 
 	serve [<args>]
-		Serve this site using Jekyll. Pass arguments to it.
-
-	version
-		Show the version.
+		Serve this site using Middleman. Pass arguments to it.
 
 OPTIONS:
 
 	-h        Show this help screen.
-	-v        Show script name and version number.
 
 USAGE
 }
 
-jeksite_jekyll() {
-	_find_jekyll_dir
-	[ "$( pwd )" != "$jekyll_dir" ] && _echo "$jekyll_dir"
-	cd "$jekyll_dir" || exit $e_failed_cd
-	[ $# -gt 0 ] && bundle exec jekyll "$@" && return
-	bundle exec jekyll serve --livereload --incremental "$@"
+mansite_build() {
+	mansite_middleman build "$@"
 }
 
-jeksite_new() {
+mansite_middleman() {
+	_find_middleman_dir
+	[ "$( pwd )" != "$middleman_dir" ] && _echo "$middleman_dir"
+	cd "$middleman_dir" || exit $e_failed_cd
+	[ $# -gt 0 ] && bundle exec middleman "$@" && return
+	bundle exec middleman "$@"
+}
+
+mansite_new() {
 	[ $# -lt 1 ] && _fatal $e_args "Must specify directory."
 
 	dir="$1"
 	[ -d "$dir" ] && _fatal $e_exists "Directory already exists: $dir"
 
-	git clone https://github.com/remino/jeksite "$dir"
+	git clone https://github.com/remino/mansite "$dir"
 	cd "$dir" || _fatal $e_failed_cd "Failed to cd to: $dir"
 	[ -d .git ] && rm -rf .git
 	bundle install
@@ -94,12 +92,8 @@ jeksite_new() {
 	git commit -m "Initial commit."
 }
 
-jeksite_serve() {
-	jeksite_jekyll serve --livereload --incremental -- "$@"
-}
-
-jeksite_version() {
-	_echo "$scriptname $VERSION"
+mansite_serve() {
+	mansite_middleman "$@"
 }
 
 _echo() {
@@ -122,31 +116,31 @@ _fatal() {
 	exit "$exit_code"
 }
 
-_find_jekyll_dir() {
-	for jekyll_dir in "$( pwd )" "$scriptdir"
+_find_middleman_dir() {
+	for middleman_dir in "$( pwd )" "$scriptdir"
 	do
-		while [ "$jekyll_dir" != '/' ]
+		while [ "$middleman_dir" != '/' ]
 		do
-			[ -f "$jekyll_dir/_config.yml" ] && return
-			jekyll_dir="$( dirname "$jekyll_dir" )"
+			[ -f "$middleman_dir/config.rb" ] && return
+			middleman_dir="$( dirname "$middleman_dir" )"
 		done
 	done
 
-	_fatal $e_no_jekyll "Failed to find Jekyll directory"
+	_fatal $e_no_middleman "Failed to find Middleman directory"
 }
 
 _invalid_cmd() {
 	_error "Invalid command: $cmd"
 	_echo
-	jeksite_help
+	mansite_help
 	exit $e_args
 }
 
 _invalid_opt() {
 	_error "Invalid option: $opt"
 	_echo
-	jeksite_help
+	mansite_help
 	exit $e_args
 }
 
-jeksite_main "$@"
+mansite_main "$@"
