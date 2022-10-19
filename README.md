@@ -53,7 +53,7 @@ See `./mansite -h` for more information on the command.
 
 ## To Do
 
-- [ ] Update `config.rb` to your liking.
+- [ ] Update `config.rb` and `data/site.yml` to your liking.
 - [ ] Update `README.md` by first deleting its content.
 - [ ] Update or remove `LICENSE.txt` if needed. (ISC licence by default.)
 - [ ] Delete content of `index.html`, `style.css`, and `script.js` files found in `source`.
