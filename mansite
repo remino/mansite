@@ -1,6 +1,8 @@
 #!/bin/sh
 # mansite
 
+VERSION='1.0.0'
+
 mansite_main() {
 	trap _exit INT TERM
 
@@ -11,6 +13,7 @@ mansite_main() {
 
 	scriptinv="$( basename "$0" )"
 	scriptpath="$( readlink -f "$0" )"
+	scriptname="$( basename "$scriptpath" )"
 	scriptdir="$( dirname "$scriptpath" )"
 
 	while getopts hv opt
@@ -28,7 +31,7 @@ mansite_main() {
 	[ -z "$cmd" ] && cmd="serve"
 
 	case "$cmd" in
-		build|help|middleman|serve) "mansite_$cmd" "$@" ;;
+		build|help|middleman|serve|version) "mansite_$cmd" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
 
@@ -37,6 +40,8 @@ mansite_main() {
 
 mansite_help() {
 cat <<USAGE
+$scriptname $VERSION
+
 USAGE: $scriptinv [<options>] <command> [<args>...]
 
 Serve or build site using Middleman.
@@ -58,9 +63,13 @@ COMMANDS:
 	serve [<args>]
 		Serve this site using Middleman. Pass arguments to it.
 
+	version
+		Show the version.
+
 OPTIONS:
 
 	-h        Show this help screen.
+	-v        Show script name and version number.
 
 USAGE
 }
@@ -94,6 +103,10 @@ mansite_new() {
 
 mansite_serve() {
 	mansite_middleman "$@"
+}
+
+mansite_version() {
+	_echo "$scriptname $VERSION"
 }
 
 _echo() {
