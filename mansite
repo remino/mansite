@@ -1,7 +1,7 @@
 #!/bin/sh
 # mansite
 
-VERSION='1.0.0'
+VERSION='1.0.1'
 
 mansite_main() {
 	trap _exit INT TERM
@@ -31,7 +31,7 @@ mansite_main() {
 	[ -z "$cmd" ] && cmd="serve"
 
 	case "$cmd" in
-		build|help|middleman|serve|version) "mansite_$cmd" "$@" ;;
+		build|help|middleman|new|serve|version) "mansite_$cmd" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
 
