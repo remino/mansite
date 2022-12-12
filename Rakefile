@@ -18,7 +18,7 @@ end
 namespace :deploy do
 	desc "Deploy site to production"
 	task :production do
-		# Write deploy script here.
+		system "bin/deploy -c .env -r"
 	end
 end
 
