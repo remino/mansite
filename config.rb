@@ -15,6 +15,8 @@ configure :build do
 	end
 end
 
+ignore '.DS_Store'
+
 page '/*.json', layout: false
 page '/*.txt', layout: false
 page '/*.xml', layout: false
