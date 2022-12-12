@@ -107,6 +107,8 @@ GEM
       ffi (~> 1.9)
     servolux (0.13.0)
     temple (0.8.2)
+    terser (1.1.13)
+      execjs (>= 0.3.0, < 3)
     thor (1.2.1)
     tilt (2.0.11)
     toml (0.3.0)
@@ -116,6 +118,7 @@ GEM
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
     webrick (1.7.0)
+    yui-compressor (0.12.0)
     zeitwerk (2.6.1)
 
 PLATFORMS
@@ -123,12 +126,15 @@ PLATFORMS
 
 DEPENDENCIES
   haml (~> 5)
+  htmlcompressor
   middleman (~> 4.2)
   middleman-autoprefixer (~> 3.0)
   middleman-livereload
   middleman-minify-html (~> 3.4)
+  terser
   tzinfo-data
   wdm (~> 0.1)
+  yui-compressor
 
 BUNDLED WITH
    2.3.22
