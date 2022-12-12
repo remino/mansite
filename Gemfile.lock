@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/exteris/middleman-brotli
-  revision: f20fbf898f9e40b25540352d2cca968e48c1f10f
-  branch: master
-  specs:
-    middleman-brotli (0.0.1)
-      brotli (>= 0.2.0)
-      middleman-core (>= 4.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -21,7 +12,6 @@ GEM
     autoprefixer-rails (10.4.7.0)
       execjs (~> 2)
     backports (3.23.0)
-    brotli (0.4.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -124,7 +114,6 @@ DEPENDENCIES
   haml (~> 5)
   middleman (~> 4.2)
   middleman-autoprefixer (~> 3.0)
-  middleman-brotli!
   middleman-minify-html (~> 3.4)
   tzinfo-data
   wdm (~> 0.1)

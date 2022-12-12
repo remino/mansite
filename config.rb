@@ -5,14 +5,12 @@ activate :autoprefixer do |prefix|
 end
 
 configure :build do
-	activate :brotli
 	activate :gzip
 	activate :minify_css
 	activate :minify_javascript
 
-	activate :minify_html do |html|
-		html.remove_intertag_spaces = true
-		html.simple_doctype = true
+	after_build do |builder|
+		builder.thor.run 'bin/build_brotli build'
 	end
 end
 
