@@ -11,7 +11,7 @@ export default {
 	input: 'assets/js/index.js',
 	output: {
 		compact: true,
-		file: 'source/mansite/script.js',
+		file: '.build/js/mansite/script.js',
 		format: 'iife',
 	},
 	watch: {

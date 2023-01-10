@@ -45,13 +45,13 @@ end
 activate :external_pipeline,
 	name: :css,
 	command: "npm run #{build? ? 'css:build' : 'css:watch'}",
-	source: "source/#{app.data.site.prefix}",
+	source: ".build/css",
 	latency: 2
 
 activate :external_pipeline,
 	name: :js,
 	command: "npm run #{build? ? 'js:build' : 'js:watch'}",
-	source: "source/#{app.data.site.prefix}",
+	source: ".build/js",
 	latency: 2
 
 ignore '.DS_Store'

@@ -1,3 +1,4 @@
+.build/
 .bundle
 .cache
 .DS_Store
@@ -5,6 +6,3 @@
 .sass-cache
 build/
 node_modules/
-source/**/*.css
-source/**/*.css.map
-source/**/*.js

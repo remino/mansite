@@ -6,8 +6,8 @@
 		"sass": "^1.57.1"
 	},
 	"scripts": {
-		"css:build": "npx sass --load-path=node_modules/ assets/css/:source/mansite/",
-		"css:watch": "npx sass --watch --load-path=node_modules/ assets/css/:source/mansite/",
+		"css:build": "npx sass --load-path=node_modules/ assets/css/:.build/css/mansite/",
+		"css:watch": "npx sass --watch --load-path=node_modules/ assets/css/:.build/css/mansite/",
 		"js:build": "npx rollup --config rollup.config.js",
 		"js:watch": "npx rollup --config rollup.config.js --watch"
 	},
