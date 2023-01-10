@@ -36,7 +36,6 @@ mansite_main() {
 
 	case "$CMD" in
 		mm) CMD=middleman ;;
-		*) _invalid_cmd ;;
 	esac
 
 	case "$CMD" in
