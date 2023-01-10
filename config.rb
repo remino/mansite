@@ -48,8 +48,8 @@ page '/*.json', layout: false
 page '/*.txt', layout: false
 page '/*.xml', layout: false
 
-set :css_dir, "#{app.data.site.prefix}/css"
+set :css_dir, app.data.site.prefix
 set :haml, { format: :html5 }
-set :images_dir, "#{app.data.site.prefix}/img"
-set :js_dir, "#{app.data.site.prefix}/js"
+set :images_dir, app.data.site.prefix
+set :js_dir, app.data.site.prefix
 set :relative_links, false
