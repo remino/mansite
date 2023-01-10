@@ -23,19 +23,19 @@ mansite_main() {
 	do
 		case $opt in
 			b) BUILD=1 ;;
-			h) cmd=help ;;
-			v) cmd=version ;;
+			h) CMD=help ;;
+			v) CMD=version ;;
 			*) _invalid_opt ;;
 		esac
 	done
 
 	shift "$(( OPTIND - 1 ))"
 
-	[ $# -gt 0 ] && cmd="$1" && shift
-	[ -z "$cmd" ] && cmd="serve"
+	[ $# -gt 0 ] && CMD="$1" && shift
+	[ -z "$CMD" ] && CMD="serve"
 
-	case "$cmd" in
-		build|deploy|help|middleman|new|serve|version) "mansite_$cmd" "$@" ;;
+	case "$CMD" in
+		build|deploy|help|middleman|new|serve|version) "mansite_$CMD" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
 
@@ -160,7 +160,7 @@ _find_middleman_dir() {
 }
 
 _invalid_cmd() {
-	_error "Invalid command: $cmd"
+	_error "Invalid command: $CMD"
 	_echo
 	mansite_help
 	exit "$E_ARGS"
