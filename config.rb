@@ -43,6 +43,12 @@ configure :build do
 end
 
 activate :external_pipeline,
+	name: :css,
+	command: "npm run #{build? ? 'css:build' : 'css:watch'}",
+	source: "source/#{app.data.site.prefix}",
+	latency: 2
+
+activate :external_pipeline,
 	name: :js,
 	command: "npm run #{build? ? 'js:build' : 'js:watch'}",
 	source: "source/#{app.data.site.prefix}",
