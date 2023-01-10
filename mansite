@@ -2,7 +2,7 @@
 # mansite
 # shellcheck disable=SC2317
 
-VERSION='2.0.5'
+VERSION='2.0.6'
 
 mansite_main() {
 	trap _exit INT TERM
