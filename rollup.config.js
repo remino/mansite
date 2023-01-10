@@ -14,5 +14,8 @@ export default {
 		file: 'source/mansite/script.js',
 		format: 'iife',
 	},
+	watch: {
+		clearScreen: false,
+	},
 	plugins: [sassPlugin, uglify()],
 }
