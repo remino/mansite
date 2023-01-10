@@ -119,8 +119,8 @@ mansite_new() {
 	git clone https://github.com/remino/mansite "$dir"
 	cd "$dir" || _fatal "$E_FAILED_CD" "Failed to cd to: $dir"
 	[ -d .git ] && rm -rf .git
-	bundle install
 	npm install
+	bundle install
 	git init
 	git add .
 	git commit -m "Initial commit."
