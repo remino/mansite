@@ -16,9 +16,19 @@ namespace :build do
 end
 
 namespace :deploy do
-	desc "Deploy site to production"
+	def deploy(env)
+		puts "Building for #{env}"
+		system "bin/deploy -c .env -c .env.#{env} -r"
+	end
+
+	desc "Deploy site for staging"
+	task :staging do
+		deploy :staging
+	end
+
+	desc "Deploy site for production"
 	task :production do
-		system "bin/deploy -c .env -r"
+		deploy :production
 	end
 end
 

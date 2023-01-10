@@ -17,9 +17,12 @@ mansite_main() {
 	SCRIPT_NAME="$( basename "$SCRIPT_PATH" )"
 	SCRIPT_DIR="$( dirname "$SCRIPT_PATH" )"
 
-	while getopts hv opt
+	BUILD=0
+
+	while getopts bhv opt
 	do
 		case $opt in
+			b) BUILD=1 ;;
 			h) cmd=help ;;
 			v) cmd=version ;;
 			*) _invalid_opt ;;
@@ -32,7 +35,7 @@ mansite_main() {
 	[ -z "$cmd" ] && cmd="serve"
 
 	case "$cmd" in
-		build|help|middleman|new|serve|version) "mansite_$cmd" "$@" ;;
+		build|deploy|help|middleman|new|serve|version) "mansite_$cmd" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
 
@@ -49,8 +52,11 @@ Serve or build site using Middleman.
 
 COMMANDS:
 
-	build
-		Build site using Middleman. Pass arguments to it.
+	build [<env>]
+		Build site using Middleman. Defaults to production environment.
+
+	deploy [<env>]
+		Deploy site using Middleman. Defaults to production environment.
 
 	help
 		Show this help message.
@@ -69,6 +75,7 @@ COMMANDS:
 
 OPTIONS:
 
+	-b        Build before deploy.
 	-h        Show this help screen.
 	-v        Show script name and version number.
 
@@ -76,7 +83,16 @@ USAGE
 }
 
 mansite_build() {
-	mansite_middleman build "$@"
+	env_name="$1"
+	[ -z "$env_name" ] && env_name=production
+	rake "build:$env_name"
+}
+
+mansite_deploy() {
+	env_name="$1"
+	[ -z "$env_name" ] && env_name=production
+	[ "$BUILD" -ne 0 ] && ( mansite_build "$env_name" || return $? )
+	rake "deploy:$env_name"
 }
 
 mansite_middleman() {
