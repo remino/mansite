@@ -48,11 +48,8 @@ page '/*.json', layout: false
 page '/*.txt', layout: false
 page '/*.xml', layout: false
 
-# Setting :http_prefix does not seem to work, so doing workaround:
-prefix = '/mansite'
-
-set :css_dir, "#{prefix}/css"
+set :css_dir, "#{app.data.site.prefix}/css"
 set :haml, { format: :html5 }
-set :images_dir, "#{prefix}/img"
-set :js_dir, "#{prefix}/js"
+set :images_dir, "#{app.data.site.prefix}/img"
+set :js_dir, "#{app.data.site.prefix}/js"
 set :relative_links, false
