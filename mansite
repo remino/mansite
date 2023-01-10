@@ -35,6 +35,11 @@ mansite_main() {
 	[ -z "$CMD" ] && CMD="serve"
 
 	case "$CMD" in
+		mm) CMD=middleman ;;
+		*) _invalid_cmd ;;
+	esac
+
+	case "$CMD" in
 		build|deploy|help|middleman|new|serve|version) "mansite_$CMD" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
@@ -63,6 +68,9 @@ COMMANDS:
 
 	middleman [<args>]
 		Run Middleman. Pass all arguments to it.
+
+	mm [<args>]
+		Alias for 'middleman'.
 
 	new <dir>
 		Create new mansite in <dir>.
