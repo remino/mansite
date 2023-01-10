@@ -40,6 +40,8 @@ configure :build do
 	after_build do |builder|
 		builder.thor.run 'bin/build_brotli build'
 	end
+
+	ignore '*.map'
 end
 
 activate :external_pipeline,
