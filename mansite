@@ -1,5 +1,6 @@
 #!/bin/sh
 # mansite
+# shellcheck disable=SC2317
 
 VERSION='1.1.0'
 
