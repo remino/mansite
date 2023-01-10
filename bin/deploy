@@ -8,7 +8,6 @@ deploy_main() {
 	E_ARGS=16
 	E_MISSING_APP=17
 	E_MISSING_ENV=18
-	E_NO_CONFIG=19
 
 	SCRIPT_INT="$( basename "$0" )"
 	SCRIPT_PATH="$( readlink -f "$0" )"
@@ -16,12 +15,11 @@ deploy_main() {
 	ROOT_DIR="$( dirname "$SCRIPT_DIR" )"
 
 	DRY_RUN_ARG='-n'
-	RC=
 
 	while getopts c:hr opt
 	do
 		case $opt in
-			c) RC="$OPTARG" ;;
+			c) _load_config "$OPTARG" ;;
 			h) CMD=help ;;
 			r) DRY_RUN_ARG= ;;
 			*) _invalid_opt ;;
@@ -94,7 +92,15 @@ _fatal() {
 }
 
 _init() {
-	_load_config
+	missing=""
+
+	[ -z "$DEPLOY_DEST" ] && missing="${missing}DEPLOY_DEST "
+	[ -z "$DEPLOY_SRC" ] && missing="${missing}DEPLOY_SRC "
+
+	echo "DEPLOY_DEST=$DEPLOY_DEST"
+	echo "DEPLOY_SRC=$DEPLOY_SRC"
+
+	[ -n "$missing" ] && _fatal "$E_MISSING_ENV" "Missing env vars: $missing"
 }
 
 _invalid_cmd() {
@@ -112,28 +118,19 @@ _invalid_opt() {
 }
 
 _load_config() {
-	[ -z "$RC" ] &&
-		_fatal "$E_NO_CONFIG" "No config file specified."
+	rc="$1"
 
-	if [ -f "$RC" ]
-	then
-		eval "$(
-			# shellcheck source=/dev/null
-			. "$RC"
-			echo "DEPLOY_DEST=$DEPLOY_DEST"
-			echo "DEPLOY_SRC=$DEPLOY_SRC"
-		)"
+	[ ! -f "$rc" ] && return
 
-		[ -n "$DEPLOY_DEST" ] && export DEPLOY_DEST
-		[ -n "$DEPLOY_SRC" ] && export DEPLOY_SRC
-	fi
+	eval "$(
+		# shellcheck source=/dev/null
+		. "$rc"
+		echo "DEPLOY_DEST=$DEPLOY_DEST"
+		echo "DEPLOY_SRC=$DEPLOY_SRC"
+	)"
 
-	missing=""
-
-	[ -z "$DEPLOY_DEST" ] && missing="$missing$DEPLOY_DEST "
-	[ -z "$DEPLOY_SRC" ] && missing="$missing$DEPLOY_SRC "
-
-	[ -n "$missing" ] && _fatal "$E_MISSING_ENV" "Missing env vars: $missing"
+	[ -n "$DEPLOY_DEST" ] && export DEPLOY_DEST
+	[ -n "$DEPLOY_SRC" ] && export DEPLOY_SRC
 }
 
 _require() {
