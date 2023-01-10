@@ -120,6 +120,7 @@ mansite_new() {
 	cd "$dir" || _fatal "$E_FAILED_CD" "Failed to cd to: $dir"
 	[ -d .git ] && rm -rf .git
 	bundle install
+	npm install
 	git init
 	git add .
 	git commit -m "Initial commit."
