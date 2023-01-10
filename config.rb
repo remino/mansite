@@ -42,6 +42,12 @@ configure :build do
 	end
 end
 
+activate :external_pipeline,
+	name: :js,
+	command: "npm run #{build? ? 'js:build' : 'js:watch'}",
+	source: "source/#{app.data.site.prefix}",
+	latency: 2
+
 ignore '.DS_Store'
 
 page '/*.json', layout: false

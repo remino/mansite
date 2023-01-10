@@ -1,0 +1,17 @@
+{
+	"author": "",
+	"description": "",
+	"devDependencies": {
+		"@lopatnov/rollup-plugin-uglify": "^2.1.5",
+		"rollup": "^3.9.1",
+		"rollup-plugin-sass": "^1.12.17"
+	},
+	"license": "ISC",
+	"name": "mansite",
+	"scripts": {
+		"js:build": "npx rollup --config rollup.config.js",
+		"js:watch": "npx rollup --config rollup.config.js --watch"
+	},
+	"type": "module",
+	"version": "1.0.0"
+}

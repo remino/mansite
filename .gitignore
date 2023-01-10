@@ -5,3 +5,4 @@
 .sass-cache
 build/
 node_modules/
+source/**/*.js
