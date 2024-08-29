@@ -59,7 +59,8 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build/{{ steps.build.outputs.stdout }}
+          path: |
+            ./build/${{ steps.build.outputs.stdout }}
 
   deploy:
     needs: build
