@@ -34,24 +34,10 @@ jobs:
           sudo apt-get install -y curl git build-essential libssl-dev libreadline-dev zlib1g-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev
 
       - name: Install Ruby
-        run: |
-          cd /tmp
-          wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz
-          tar -xzvf ruby-3.1.2.tar.gz
-          cd ruby-3.1.2
-          ./configure
-          make
-          sudo make install
-          ruby -v
+        run: sudp apt-get install -y ruby
 
       - name: Install Node
-        run: |
-          cd /tmp
-          wget https://nodejs.org/dist/v18.11.0/node-v18.11.0-linux-x64.tar.xz
-          tar -xf node-v18.11.0-linux-x64.tar.xz
-          sudo cp -r node-v18.11.0-linux-x64/* /usr/local/
-          node -v
-          npm -v
+        run: sudp apt-get install -y nodejs
 
       - name: Install Ruby gems
         run: bundle install
