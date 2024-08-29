@@ -52,15 +52,16 @@ jobs:
       - name: Build Middleman site and assets with mansite script
         run: ./mansite build
 
-      - name: Output build directory path
+      - name: Get build directory path
+        id: get-build-dir
         run: |
-          printf %s "$( grep '^prefix:' data/site.yml | sed 's/^prefix: //' )"
+          echo "build_dir=$( grep '^prefix:' data/site.yml | sed -E 's/^prefix: //' )" >> $GITHUB_ENV
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
           path: |
-            ./build/${{ steps.build.outputs.stdout }}
+            ./build/${{ env.build-dir }}
 
   deploy:
     needs: build
