@@ -54,7 +54,7 @@ jobs:
 
       - name: Output build directory path
         run: |
-          grep '^prefix:' data/site.yml | sed 's/^prefix: //'
+          printf %s "$( grep '^prefix:' data/site.yml | sed 's/^prefix: //' )"
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
