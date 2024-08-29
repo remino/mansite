@@ -31,8 +31,8 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install -y curl git nodejs
+          sudo apt-get update
+          sudo apt-get install -y curl git nodejs
 
       - name: Disable git "detached head" warning
         run: git config --global advice.detachedHead false
