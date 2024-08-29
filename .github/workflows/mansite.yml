@@ -59,13 +59,13 @@ jobs:
 
       - name: Output build prefix sub-directory path
         run: |
-          echo "Path: build/${{ env.build-dir }}"
-          ls -la "build/${{ env.build-dir }}"
+          echo "Path: build/${{ env.build_dir }}"
+          ls -la "build/${{ env.build_dir }}"
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build/${{ env.build-dir }}
+          path: ./build/${{ env.build_dir }}
 
   deploy:
     needs: build
