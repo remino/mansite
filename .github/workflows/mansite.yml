@@ -52,10 +52,14 @@ jobs:
       - name: Build Middleman site and assets with mansite script
         run: ./mansite build
 
+      - name: Output build directory path
+        run: |
+          grep '^prefix:' data/site.yml | sed 's/^prefix: //'
+
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build
+          path: ./build/{{ steps.build.outputs.stdout }}
 
   deploy:
     needs: build
