@@ -10,3 +10,8 @@ gem 'terser'
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby, :x64_mingw]
 gem 'wdm', '~> 0.1', platforms: [:mswin, :mingw, :x64_mingw]
 gem 'yui-compressor'
+
+group :development do
+	gem 'listen', '>= 3.0.0'
+end
+
