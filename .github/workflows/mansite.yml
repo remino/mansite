@@ -36,9 +36,6 @@ jobs:
       - name: Install asdf
         run: |
           git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
-          cat $HOME/.asdf/asdf.sh
-          echo '. $HOME/.asdf/asdf.sh' >> $GITHUB_ENV
-          echo '. $HOME/.asdf/completions/asdf.bash' >> $GITHUB_ENV
           . $HOME/.asdf/asdf.sh
 
       - name: Install Ruby
@@ -53,10 +50,10 @@ jobs:
           asdf install nodejs
           asdf global nodejs $(asdf latest nodejs)
 
-      - name: Install Ruby dependencies
+      - name: Install Ruby gems
         run: bundle install
 
-      - name: Install npm dependencies
+      - name: Install npm packages
         run: npm install
 
       - name: Setup Pages
