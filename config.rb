@@ -8,7 +8,7 @@ activate :autoprefixer do |prefix|
 end
 
 configure :build do
-	activate :gzip
+	# activate :gzip
 	activate :minify_css
 	activate :minify_javascript, compressor: Terser.new
 
@@ -37,9 +37,9 @@ configure :build do
 			simple_doctype: false
 	end
 
-	after_build do |builder|
-		builder.thor.run 'bin/build_brotli build'
-	end
+	# after_build do |builder|
+	# 	builder.thor.run 'bin/build_brotli build'
+	# end
 
 	ignore '*.map'
 end
