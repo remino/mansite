@@ -60,8 +60,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: |
-            ./build/${{ env.build-dir }}
+          path: ./build/${{ env.build-dir }}
 
   deploy:
     needs: build
