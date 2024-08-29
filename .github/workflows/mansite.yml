@@ -40,28 +40,36 @@ jobs:
 
       - name: Install Ruby
         run: |
+          source ~/.profile
           asdf plugin add ruby
           asdf install ruby
           asdf global ruby $(asdf latest ruby)
 
       - name: Install Node
         run: |
+          source ~/.profile
           asdf plugin add nodejs
           asdf install nodejs
           asdf global nodejs $(asdf latest nodejs)
 
       - name: Install Ruby gems
-        run: bundle install
+        run: |
+          source ~/.profile
+          bundle install
 
       - name: Install npm packages
-        run: npm install
+        run: |
+          source ~/.profile
+          npm install
 
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
 
       - name: Build Middleman site and assets with mansite script
-        run: ./mansite build
+        run: |
+          source ~/.profile
+          ./mansite build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
