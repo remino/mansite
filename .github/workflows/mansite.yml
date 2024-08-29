@@ -1,4 +1,5 @@
 name: Build and Deploy Mansite
+# interactive shell
 
 on:
   push:
@@ -23,48 +24,59 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: debian:latest
+
+    env:
+      BASH_ENV: ~/.bashrc
 
     steps:
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y curl git nodejs libyaml-dev build-essential libssl-dev inotify-tools
+
+      - name: Check if inotify is in the kernel
+        run: zcat /proc/config.gz | grep INOTIFY
+
+      - name: Disable git "detached head" warning
+        run: git config --global advice.detachedHead false
+
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl git build-essential libssl-dev libreadline-dev zlib1g-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev
+      # - name: Pause for debugging
+      #   run: sleep infinity
 
       - name: Install Ruby
-        run: |
-          sudo apt-get install -y ruby
-          sudo gem install bundler
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          cache-version: 2
 
       - name: Install Node
-        run: sudo apt-get install -y nodejs npm
-
-      - name: Install Ruby gems
-        run: bundle install
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .tool-versions
 
       - name: Install npm packages
-        run: npm install
-
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
+        run: npm ci
 
       - name: Build Middleman site and assets with mansite script
-        run: |
-          source ~/.profile
-          ./mansite build
+        run: LISTEN_FALLBACK_POLLING=true ./mansite build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build
-          path: ./build # Adjust if your build directory is different
+          path: ./build
 
   deploy:
     # Add a dependency to the build job
     needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: debian:latest
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
@@ -77,8 +89,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     # Specify runner + deployment step
-    runs-on: ubuntu-latest
     steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
+        uses: actions/deploy-pages@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          publish-dir: ./build # Directory name after download
