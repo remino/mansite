@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl git nodejs
+          sudo apt-get install -y curl git
 
       - name: Disable git "detached head" warning
         run: git config --global advice.detachedHead false
@@ -47,7 +47,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          cache-version: 2
+          cache-version: 3
 
       - name: Install Node
         uses: actions/setup-node@v3
@@ -83,13 +83,8 @@ jobs:
 
     # Specify runner + deployment step
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          publish-dir: ./build # Directory name after download
+          artifact_name: build # Directory name after download
