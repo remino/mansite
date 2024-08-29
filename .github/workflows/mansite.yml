@@ -31,36 +31,33 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl git
-
-      - name: Install asdf
-        run: |
-          git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
-          echo ". $HOME/.asdf/asdf.sh" > ~/.profile
+          sudo apt-get install -y curl git build-essential libssl-dev libreadline-dev zlib1g-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev
 
       - name: Install Ruby
         run: |
-          source ~/.profile
-          asdf plugin add ruby
-          asdf install ruby
-          asdf global ruby $(asdf latest ruby)
+          cd /tmp
+          wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz
+          tar -xzvf ruby-3.1.2.tar.gz
+          cd ruby-3.1.2
+          ./configure
+          make
+          sudo make install
+          ruby -v
 
       - name: Install Node
         run: |
-          source ~/.profile
-          asdf plugin add nodejs
-          asdf install nodejs
-          asdf global nodejs $(asdf latest nodejs)
+          cd /tmp
+          wget https://nodejs.org/dist/v18.11.0/node-v18.11.0-linux-x64.tar.xz
+          tar -xf node-v18.11.0-linux-x64.tar.xz
+          sudo cp -r node-v18.11.0-linux-x64/* /usr/local/
+          node -v
+          npm -v
 
       - name: Install Ruby gems
-        run: |
-          source ~/.profile
-          bundle install
+        run: bundle install
 
       - name: Install npm packages
-        run: |
-          source ~/.profile
-          npm install
+        run: npm install
 
       - name: Setup Pages
         id: pages
