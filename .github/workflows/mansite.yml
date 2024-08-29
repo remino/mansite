@@ -57,6 +57,11 @@ jobs:
         run: |
           echo "build_dir=$( grep '^prefix:' data/site.yml | sed -E 's/^prefix: //' )" >> $GITHUB_ENV
 
+      - name: Output build prefix sub-directory path
+        run: |
+          echo "Path: build/${{ env.build-dir }}"
+          ls -la "build/${{ env.build-dir }}"
+
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
