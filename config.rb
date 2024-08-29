@@ -8,7 +8,7 @@ activate :autoprefixer do |prefix|
 end
 
 configure :build do
-	# activate :gzip
+	activate :gzip unless ENV['GITHUB_ACTIONS'] == 'true'
 	activate :minify_css
 	activate :minify_javascript, compressor: Terser.new
 
@@ -37,9 +37,11 @@ configure :build do
 			simple_doctype: false
 	end
 
-	# after_build do |builder|
-	# 	builder.thor.run 'bin/build_brotli build'
-	# end
+	unless ENV['GITHUB_ACTIONS'] == 'true'
+		after_build do |builder|
+			builder.thor.run 'bin/build_brotli build'
+		end
+	end
 
 	ignore '*.map'
 	ignore '/index.html'
