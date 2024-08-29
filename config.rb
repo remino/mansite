@@ -42,6 +42,7 @@ configure :build do
 	# end
 
 	ignore '*.map'
+	ignore '/index.html'
 end
 
 activate :external_pipeline,
