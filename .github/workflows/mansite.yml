@@ -36,7 +36,7 @@ jobs:
       - name: Install Ruby
         run: |
           sudo apt-get install -y ruby
-          gem install bundler
+          sudo gem install bundler
 
       - name: Install Node
         run: sudo apt-get install -y nodejs npm
